@@ -1,0 +1,21 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: red;
+
+  .title {
+    margin: 1rem 1rem
+  }
+
+  .linksMenu {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+
+    .link {
+      margin: 1rem 1rem
+    }
+  }
+}
+
