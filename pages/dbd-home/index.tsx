@@ -1,9 +1,13 @@
 import React from 'react'
+import classes from './dbd-home.module.css'
+import DbdForm from '../../components/DbdForm/DbdForm'
 
 const HomePage = () => {
   return (
     <>
-      <div>Cool</div>
+      <div className={classes.dbdHomePage}>
+        <DbdForm />
+      </div>
     </>
   )
 }

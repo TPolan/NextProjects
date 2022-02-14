@@ -17,6 +17,9 @@ const NavigationBar = ({ children }: Props) => {
           <li className={classes.link}>
             <Link href={"/dbd-home"}>Stats By Daylight</Link>
           </li>
+          <li className={classes.link}>
+            <Link href={"/login"}>Login</Link>
+          </li>
         </ul>
       </header>
       {children}
