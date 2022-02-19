@@ -1,6 +1,4 @@
 import React from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,10 +11,13 @@ import { useFormik } from "formik";
 import Switch from "@mui/material/Switch";
 import * as yup from "yup";
 import { alphabeticalKillers } from "../../const/dbd-static-data";
+import classes from "./DbdForm.module.css";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 const DbdForm = () => {
   const validationSchema = yup.object({
-    role: yup.string().required(),
+    isSurvivor: yup.boolean().required(),
     killer: yup.string().required(),
     escaped: yup.boolean(),
     kills: yup.number().integer().min(0).max(4),
@@ -24,7 +25,7 @@ const DbdForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      role: "survivor",
+      isSurvivor: false,
       killer: "Artist",
       escaped: false,
       kills: 0,
@@ -36,16 +37,19 @@ const DbdForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Select
-        labelId="role"
-        id="role"
-        label="Choose a Role"
-        {...formik.getFieldProps("role")}
-      >
-        <MenuItem value="survivor">Survivor</MenuItem>
-        <MenuItem value="killer">Killer</MenuItem>
-      </Select>
+    <form className={classes.container} onSubmit={formik.handleSubmit}>
+      <h1>Add new entry</h1>
+      <FormControlLabel
+        control={
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography>Survivor</Typography>
+            <Switch id="isSurvivor" {...formik.getFieldProps("isSurvivor")} />
+            <Typography>Killer</Typography>
+          </Stack>
+        }
+        label="Choose your side"
+        labelPlacement="top"
+      />
       <Autocomplete
         disablePortal
         id="killer"
@@ -56,18 +60,25 @@ const DbdForm = () => {
         )}
         {...formik.getFieldProps("killer")}
       />
-      {formik.values.role === "survivor" ? (
+      {!formik.values.isSurvivor ? (
         <FormControlLabel
-          control={<Switch defaultChecked />}
+          control={
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography>No</Typography>
+              <Switch
+                id="escaped"
+                {...formik.getFieldProps("escaped")}
+                defaultChecked
+              />
+              <Typography>Yes</Typography>
+            </Stack>
+          }
           label="Escaped?"
-          labelPlacement="start"
-          {...formik.getFieldProps("escaped")}
+          labelPlacement="top"
         />
       ) : (
-        <FormControl>
-          <FormLabel id="demo-radio-buttons-group-label">
-            How many kills did you get?
-          </FormLabel>
+        <FormControl className={classes.inputItem}>
+          <FormLabel>How many kills did you get?</FormLabel>
           <RadioGroup
             row
             id="kills"
@@ -83,7 +94,7 @@ const DbdForm = () => {
           </RadioGroup>
         </FormControl>
       )}
-      <Button type="submit" variant="text">
+      <Button className={classes.inputItem} type="submit" variant="text">
         Submit
       </Button>
     </form>
